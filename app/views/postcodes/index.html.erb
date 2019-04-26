@@ -1,0 +1,17 @@
+<h1>Listing Postcodes</h1>
+ 
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Description</th>
+    <th></th>
+  </tr>
+ 
+  <% @postcodes.each do |postcode| %>
+    <tr>
+      <td><%= postcode.code %></td>
+      <td><%= postcode.description %></td>
+      <td><%= link_to 'Show', postcode_path(postcode) %></td>
+    </tr>
+  <% end %>
+</table>
