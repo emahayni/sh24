@@ -1,0 +1,14 @@
+<h1>Show White-listed Lsoa</h1>
+
+<p>
+  <strong>Value:</strong>
+  <%= @lsoa.value %>
+</p>
+ 
+<p>
+  <strong>Description:</strong>
+  <%= @lsoa.description %>
+</p>
+
+<%= link_to 'Edit', edit_lsoa_path(@lsoa) %> |
+<%= link_to 'All White-list Lsoas', controller: 'lsoas' %>

@@ -1,0 +1,31 @@
+<%= form_with(model: @lsoa, local: true) do |form| %>
+
+<% if @lsoa.errors.any? %>
+  <div id="error_explanation">
+    <h2>
+      <%= pluralize(@lsoa.errors.count, "error") %> prohibited this lsoa from being saved:
+    </h2>
+    <ul>
+      <% @lsoa.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<p>
+  <%= form.label :value %><br>
+  <%= form.text_field :value %>
+</p>
+
+<p>
+  <%= form.label :description %><br>
+  <%= form.text_area :description %>
+</p>
+
+<p>
+  <%= form.submit %>
+</p>
+<% end %>
+
+<%= link_to 'Back', lsoas_path %>

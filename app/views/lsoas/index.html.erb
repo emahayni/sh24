@@ -1,0 +1,31 @@
+<h1>All White-list Lsoas</h1>
+
+<%= link_to 'Add Lsoa', new_lsoa_path %>
+<br>
+<br>
+ 
+<% if @lsoas.length > 0 %>
+  <table>
+    <tr>
+      <th>Value</th>
+      <th>Description</th>
+      <th colspan="3"></th>
+    </tr>
+   
+    <% @lsoas.each do |lsoa| %>
+      <tr>
+        <td><%= lsoa.value %>, </td>
+        <td><%= lsoa.description %></td>
+        <td>(<%= link_to 'Show', lsoa_path(lsoa) %>,</td>
+        <td><%= link_to 'Edit', edit_lsoa_path(lsoa) %>,</td>
+        <td><%= link_to 'Delete', lsoa_path(lsoa),
+                method: :delete,
+                data: { confirm: 'Are you sure?' } %>)
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<br>
+<%= link_to 'Home', welcome_index_path %> 

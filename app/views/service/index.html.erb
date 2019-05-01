@@ -1,0 +1,16 @@
+<h1>Postcode Service Status</h1>
+
+<form action="check" method="get" id='postcodes-form'>
+
+<div>
+	<input type="text" name="pcode" value="<%= @pcode %>" placeholder="Insert a UK postcode">
+</div>
+<div class="">
+	<button type="submit" id='service-check'>Check</button>
+	<br/>
+</div>
+<br>
+
+<% if !@pcode.blank? %>
+	Result: <%= @result %>
+<% end %>

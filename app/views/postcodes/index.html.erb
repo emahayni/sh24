@@ -1,17 +1,31 @@
-<h1>Listing Postcodes</h1>
+<h1>All White-list Postcodes</h1>
+
+<%= link_to 'Add Postcode', new_postcode_path %>
+<br>
+<br>
  
-<table>
-  <tr>
-    <th>Code</th>
-    <th>Description</th>
-    <th></th>
-  </tr>
- 
-  <% @postcodes.each do |postcode| %>
+<% if @postcodes.length > 0 %>
+  <table>
     <tr>
-      <td><%= postcode.code %></td>
-      <td><%= postcode.description %></td>
-      <td><%= link_to 'Show', postcode_path(postcode) %></td>
+      <th>Code</th>
+      <th>Description</th>
+      <th colspan="3"></th>
     </tr>
-  <% end %>
-</table>
+   
+    <% @postcodes.each do |postcode| %>
+      <tr>
+        <td><%= postcode.code %>, </td>
+        <td><%= postcode.description %></td>
+        <td>(<%= link_to 'Show', postcode_path(postcode) %>,</td>
+        <td><%= link_to 'Edit', edit_postcode_path(postcode) %>,</td>
+        <td><%= link_to 'Delete', postcode_path(postcode),
+                method: :delete,
+                data: { confirm: 'Are you sure?' } %>)
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<br>
+<%= link_to 'Home', welcome_index_path %> 

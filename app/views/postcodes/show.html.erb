@@ -1,3 +1,5 @@
+<h1>Show White-listed Postcode</h1>
+
 <p>
   <strong>Code:</strong>
   <%= @postcode.code %>
@@ -7,3 +9,6 @@
   <strong>Description:</strong>
   <%= @postcode.description %>
 </p>
+
+<%= link_to 'Edit', edit_postcode_path(@postcode) %> |
+<%= link_to 'All White-list Postcodes', controller: 'postcodes' %>

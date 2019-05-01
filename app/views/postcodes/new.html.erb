@@ -1,17 +1,3 @@
-<h1>New White Postcode</h1>
+<h1>New White-listed Postcode</h1>
 
-<%= form_with scope: :postcode, url: postcodes_path, local: true do |form| %>
-  <p>
-    <%= form.label :code %><br>
-    <%= form.text_field :code %>
-  </p>
- 
-  <p>
-    <%= form.label :description %><br>
-    <%= form.text_area :description %>
-  </p>
- 
-  <p>
-    <%= form.submit %>
-  </p>
-<% end %>
+<%= render 'form' %>
