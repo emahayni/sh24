@@ -1,19 +1,19 @@
 class ServiceController < ApplicationController
   include PostcodeUtils
 
-  @@Postcode_URL = 'http://api.postcodes.io/postcodes'
-
 	def index
     @result = nil
+    @error = nil
     @pcode = nil
 	end
 
   def check
-    puts 'Method: Check'
-    puts params.inspect
-
     @pcode = params[:pcode] || ''
-    @result = can_serve_postcode(@pcode)
+    if !is_valid_postcode?(@pcode )
+      @error = 'Invalid UK postcode !'
+    else
+      @result = can_serve_postcode(@pcode)
+    end
     render 'index'
   end
 
@@ -40,7 +40,7 @@ class ServiceController < ApplicationController
     require 'net/http'
     require 'json'
     begin
-      uri = URI(@@Postcode_URL)
+      uri = URI('http://api.postcodes.io/postcodes')
       http = Net::HTTP.new(uri.host, uri.port)
       req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json'})
       req.body = {"postcodes" => [postcode_value] }.to_json
@@ -69,23 +69,5 @@ class ServiceController < ApplicationController
   def is_whitelisted_postcode?(postcode_value)
     result = Postcode.where(:code => postcode_value)
     return !result.empty?
-  end
-
-
-  def look_postcode(pcode)
-    cleaned_pcode = pcode.gsub('/\s+/','')
-    require 'net/http'
-    require 'json'
-    begin
-      uri = URI(@@Postcode_URL + '/' + cleaned_pcode)
-      http = Net::HTTP.new(uri.host, uri.port)
-      req = Net::HTTP::Get.new(uri.path)
-      resp = http.request(req)
-      json = JSON.parse(res.body)
-      return json["status"] == 200
-    rescue => e
-      puts "Failed Lookup Postcode (POST) #{e}"
-      return false
-    end
   end
 end
