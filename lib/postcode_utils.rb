@@ -1,31 +1,10 @@
-class Postcode < ApplicationRecord
-  include PostcodeUtils
+module PostcodeUtils
 
-	validates :code, presence: true,
-                   length: { minimum: 6, maximum: 8 }
-
-  validates :description, presence: true,
-                   length: { maximum: 50 }
-
-  validate :validate_postcode
-
-  before_save :modify_string_case
-
-  def modify_string_case
-    self.code.upcase!
-  end  
-
-	def validate_postcode
-		if !is_valid_postcode?(self.code)
-			errors.add(:code, ': Invalid UK postcode')
-		end
-	end
-  
-  # From GitHub: https://gist.github.com/mudge/163332
+	# From GitHub: https://gist.github.com/mudge/163332
   def is_valid_postcode?(postcode)
+     # We use !! to convert the return value to a boolean:
     !!(postcode =~ /^\s*((GIR\s*0AA)|((([A-PR-UWYZ][0-9]{1,2})|(([A-PR-UWYZ][A-HK-Y][0-9]{1,2})|(([A-PR-UWYZ][0-9][A-HJKSTUW])|([A-PR-UWYZ][A-HK-Y][0-9][ABEHMNPRVWXY]))))\s*[0-9][ABD-HJLNP-UW-Z]{2}))\s*$/i)
   end
-
 
   def check_postcode_format(postcode)
     if postcode.blank?
@@ -50,5 +29,23 @@ class Postcode < ApplicationRecord
       else
         return false
     end
-  end              
+  end
+
+  def is_valid_postcode_2(pcode)
+    cleaned_pcode = pcode.gsub('/\s+/','')
+    require 'net/http'
+    require 'json'
+    begin
+      uri = URI('http://api.postcodes.io/postcodes/' + cleaned_pcode)
+      http = Net::HTTP.new(uri.host, uri.port)
+      req = Net::HTTP::Get.new(uri.path)
+      resp = http.request(req)
+      json = JSON.parse(res.body)
+      return json["status"] == 200
+    rescue => e
+      puts "Failed Lookup Postcode (POST) #{e}"
+      return false
+    end
+  end
+
 end

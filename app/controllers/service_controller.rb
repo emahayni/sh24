@@ -1,4 +1,5 @@
 class ServiceController < ApplicationController
+  include PostcodeUtils
 
   @@Postcode_URL = 'http://api.postcodes.io/postcodes'
 
