@@ -3,7 +3,8 @@
 <form action="check" method="get" id='postcodes-form'>
 
 <div>
-	<input type="text" name="pcode" value="<%= @pcode %>" placeholder="Insert a UK postcode">
+	<p>Please enter a valid UK postcode:</p>
+	<input type="text" name="pcode" value="<%= @pcode %>" placeholder="UK postcode">
 </div>
 <div class="">
 	<button type="submit" id='service-check'>Check</button>
@@ -20,3 +21,6 @@
 	Error: <%= @error %>
 <% end %>
 <br>
+
+<br>
+<%= link_to 'Home', welcome_index_path %> 

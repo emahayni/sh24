@@ -2,17 +2,18 @@ class ServiceController < ApplicationController
   include PostcodeUtils
 
 	def index
+    @pcode = nil
     @result = nil
     @error = nil
-    @pcode = nil
 	end
 
   def check
+    @result = false
     @pcode = params[:pcode] || ''
     if !is_valid_postcode?(@pcode )
-      @error = 'Invalid UK postcode !'
+      @error = 'Please enter a valid UK postcode'
     else
-      @result = can_serve_postcode(@pcode)
+      @result = can_serve_postcode?(@pcode)
     end
     render 'index'
   end
@@ -53,7 +54,7 @@ class ServiceController < ApplicationController
       end
       rescue => e
         puts "Failed Lookup Postcode (GET) #{e}"
-        return false
+        return ''
     end
   end
 

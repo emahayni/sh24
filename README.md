@@ -1,24 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Postcode Service Checker System:
 
-Things you may want to cover:
+This is a small Ruby-on-Rails application built to serve some postcodes based on some business logic rules.
 
-* Ruby version
+The system provides the following functionalities:
 
-* System dependencies
+1- Call Postcode Service Checker:
+This service will check wither a given postcode is servable or not. 
 
-* Configuration
+2- Manage White-list Lsoas:
+This allows the users to define the Lsoas that they want the application to serve.
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+3- Manage white-list Postcodes:
+This allows the users to white-list some postcodes in order to be served as well.

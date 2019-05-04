@@ -8,5 +8,7 @@ Rails.application.routes.draw do
 
   resources :lsoas
 
+  get :service, to: 'service#index'
+
   get :check, to: 'service#check'
 end
