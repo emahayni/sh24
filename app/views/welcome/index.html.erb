@@ -1,11 +1,31 @@
-<h1>Postcode Service Checker System</h1>
+<h1>SH24 Code Challenge</h1>
 
+<h4>Backend Part: Postcode Service Checker System</h4>
+1. Please use the service from here:<br> 
+<br><%= link_to 'Postcode Service Checker', controller: 'service' %><br>
 <br>
-<%= link_to 'Postcode Service Checker', controller: 'service'  %>
-<br>
-<br>
-<%= link_to 'Manage White-list Lsoas', controller: 'lsoas' %>
-<br>
-<br>
-<%= link_to 'Manage White-list Postcodes', controller: 'postcodes' %>
-<br>
+
+2. To configure the service:<br>
+<br><%= link_to 'Manage White-list Lsoas', controller: 'lsoas' %><br>
+<br><%= link_to 'Manage White-list Postcodes', controller: 'postcodes' %><br>
+
+<h4>Frontend Part: Progress Bar with Steps</h4>
+<p>Please click on Next or Prev to change the progress.</p>
+<div class="container">	
+	<div class="wrapper">	
+		<div class="arrow-steps clearfix">
+			<div class="step current"> <span>AGE + POSTCODE</span> </div>
+			<div class="step"> <span>ABOUT YOU</span> </div>
+			<div class="step"> <span>YOUR KIT</span> </div>
+			<div class="step"> <span>CONTACT + DELIVERY</span> </div>
+			<div class="step"> <span>MORE ABOUT YOU</span> </div>
+			<div class="step"> <span>CONFIRM + PAY</span> </div>
+		</div>
+		<div class="nav clearfix">
+			<a href="#" class="prev">Previous</a>
+			<a href="#" class="next pull-right">Next</a>
+		</div>
+	</div>
+</div>
+
+

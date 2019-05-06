@@ -12,5 +12,34 @@
 //
 //= require rails-ujs
 //= require activestorage
-//= require turbolinks
-//= require_tree .
+// require turbolinks
+//= require_tree
+//= require jquery
+//= require jquery_ujs
+
+jQuery( document ).ready(function() {
+		
+		var back =jQuery(".prev");
+		var	next = jQuery(".next");
+		var	steps = jQuery(".step");
+		
+		next.bind("click", function() { 
+			jQuery.each( steps, function( i ) {
+				if (!jQuery(steps[i]).hasClass('current') && !jQuery(steps[i]).hasClass('completed')) {
+					jQuery(steps[i]).addClass('current');
+					jQuery(steps[i - 1]).removeClass('current').addClass('completed');
+					return false;
+				}
+			})		
+		});
+		back.bind("click", function() { 
+			jQuery.each( steps, function( i ) {
+				if (jQuery(steps[i]).hasClass('completed') && jQuery(steps[i + 1]).hasClass('current')) {
+					jQuery(steps[i + 1]).removeClass('current');
+					jQuery(steps[i]).removeClass('completed').addClass('current');
+					return false;
+				}
+			})		
+		});
+
+	})
