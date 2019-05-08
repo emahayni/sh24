@@ -26,7 +26,6 @@ class PostcodesController < ApplicationController
   end
 
   def update
-    params[:code].capitalize!
     @postcode = Postcode.find(params[:id])
 
     if @postcode.update(postcode_params)
