@@ -6,46 +6,41 @@ module PostcodeUtils
     !!(postcode =~ /^\s*((GIR\s*0AA)|((([A-PR-UWYZ][0-9]{1,2})|(([A-PR-UWYZ][A-HK-Y][0-9]{1,2})|(([A-PR-UWYZ][0-9][A-HJKSTUW])|([A-PR-UWYZ][A-HK-Y][0-9][ABEHMNPRVWXY]))))\s*[0-9][ABD-HJLNP-UW-Z]{2}))\s*$/i)
   end
 
-  def check_postcode_format(postcode)
-    if postcode.blank?
+  def can_serve_postcode?(pcode)
+    if is_whitelisted_postcode?(pcode)
+      return true
+    end
+
+    lsoa_value = get_Lsoa_from_Postcode(pcode)
+    if lsoa_value.nil? || lsoa_value.empty?
       return false
+    end 
+
+    if is_whitelisted_lsoa?(lsoa_value)
+      return true
     end
 
-    # Postcode Allowed Formats: (A: Letter, N: Number)
-    # AN   NAA
-    # ANN  NAA
-    # AAN  NAA
-    # ANA  NAA
-    # AANN NNA
-    # AANA NAA
-
-    case postcode.length
-      when 6
-        return postcode.match(/[a-z]\d\s\d[a-z]{2}/)
-      when 7
-        return postcode.match(/[a-z]\d{2}\s\d[a-z]{2}/) || postcode.match(/[a-z]\d[a-z]\s\d[a-z]{2}/) || postcode.match(/[a-z]{2}\d\s\d[a-z]{2}/)
-      when 8
-        return postcode.match(/[a-z]{2}\d{2}\s\d[a-z]{2}/) || postcode.match(/[a-z]{2}\d[a-z]\s\d[a-z]{2}/)
-      else
-        return false
-    end
+    return false
   end
 
-  def is_valid_postcode_2(pcode)
-    cleaned_pcode = pcode.gsub('/\s+/','')
+  def get_Lsoa_from_Postcode(postcode_value)
     require 'net/http'
     require 'json'
     begin
-      uri = URI('http://api.postcodes.io/postcodes/' + cleaned_pcode)
+      uri = URI('http://api.postcodes.io/postcodes')
       http = Net::HTTP.new(uri.host, uri.port)
-      req = Net::HTTP::Get.new(uri.path)
-      resp = http.request(req)
+      req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json'})
+      req.body = {"postcodes" => [postcode_value] }.to_json
+      res = http.request(req)
       json = JSON.parse(res.body)
-      return json["status"] == 200
-    rescue => e
-      puts "Failed Lookup Postcode (POST) #{e}"
-      return false
+      if json["status"] == 200
+        json["result"].each do |entry|
+          return entry["result"]["lsoa"].downcase
+        end
+      end
+      rescue => e
+        puts "Failed Lookup Postcode (POST) #{e}"
+        return ''
     end
   end
-
 end

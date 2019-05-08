@@ -1,7 +1,7 @@
 class Postcode < ApplicationRecord
   include PostcodeUtils
 
-	validates :code, presence: true,
+	validates :code, presence: true, uniqueness: true,
                    length: { minimum: 6, maximum: 8 }
 
   validates :description, presence: true,

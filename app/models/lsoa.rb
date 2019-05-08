@@ -1,5 +1,5 @@
 class Lsoa < ApplicationRecord
-	validates :value, presence: true,
+	validates :value, presence: true, uniqueness: true,
                    length: { minimum: 5, maximum: 25 }
 
   validates :description, presence: true,
